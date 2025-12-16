@@ -1,6 +1,20 @@
 /**
  * Surge 脚本：拦截 Netflix GraphQL 响应
- * 移除包含 clcsInterstitialLolomo 或 clcsInterstitialPlaybackV2 的响应
+ * 
+ * 重要说明：
+ * 1. 必须先启用 MITM *.netflix.com 才能拦截到这些请求
+ * 2. 不能直接 REJECT 整个 web.prod.cloud.netflix.com/graphql，因为该 URL 还用于：
+ *    - 登录认证
+ *    - 影片切换
+ *    - 预览功能
+ *    - 其他核心功能
+ * 3. 本脚本只拦截包含特定字段（同户验证相关）的响应，其他正常请求正常通过
+ * 4. iOS 上可以直接 REJECT ios.prod.cloud.netflix.com/graphql
+ * 5. Web 端（电脑）必须使用脚本精确拦截，因为几乎所有功能都通过这个 URL
+ * 
+ * 拦截字段：
+ * - clcsInterstitialLolomo: 同户验证弹窗（主页）
+ * - clcsInterstitialPlaybackV2: 同户验证弹窗（播放）
  */
 
 function shouldBlock(json) {
