@@ -1,0 +1,16 @@
+# Netflix GraphQL 拦截配置
+# 使用方法：将以下内容复制到你的 Surge 配置文件（.conf 文件）中
+
+# ========== 1. 复制到 [Script] 部分 ==========
+# 在你的 .conf 文件中找到 [Script] 部分，添加下面这一行：
+Netflix GraphQL 拦截 = type=http-response,pattern=^https?://web\.prod\.cloud\.netflix\.com/graphql,requires-body=1,max-size=0,script=function shouldBlock(json) { if (!json || !json.data) return false; return json.data.hasOwnProperty('clcsInterstitialLolomo') || json.data.hasOwnProperty('clcsInterstitialPlaybackV2'); } let body = $response.body; try { const json = JSON.parse(body); if (shouldBlock(json)) { console.log("[Surge] 拦截到包含目标字段的响应，返回空对象"); $done({ body: "{}", status: 200, headers: { ...$response.headers, "Content-Type": "application/json" } }); } else { $done({}); } } catch (e) { console.warn("[Surge] 响应解析错误:", e); $done({}); }
+
+# ========== 2. 复制到 [MITM] 部分 ==========
+# 在你的 .conf 文件中找到 [MITM] 部分，添加下面这一行：
+hostname = web.prod.cloud.netflix.com
+
+# 注意：
+# - 如果 [Script] 或 [MITM] 部分不存在，需要先创建这些部分
+# - 确保 Surge 已启用 MITM 功能
+# - 配置后需要重新加载配置
+

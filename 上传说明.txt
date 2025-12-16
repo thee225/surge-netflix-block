@@ -1,0 +1,22 @@
+上传到 GitHub 的步骤：
+
+1. 在 GitHub 创建新仓库（https://github.com/new）
+   - 仓库名：surge-netflix-block（或你喜欢的名字）
+   - 选择 Public（公开）
+   - 不要初始化任何文件
+
+2. 在终端执行以下命令（替换 YOUR_USERNAME 和 REPO_NAME）：
+
+   git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
+   git branch -M main
+   git push -u origin main
+
+3. 获取 Raw URL：
+   https://raw.githubusercontent.com/YOUR_USERNAME/REPO_NAME/main/netflix-block-inline.sgmodule
+
+4. 在 Surge 中导入：
+   - 打开 Surge → 模块
+   - 点击"从 URL 导入"
+   - 粘贴上面的 Raw URL
+   - 启用模块
+
